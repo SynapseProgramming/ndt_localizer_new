@@ -61,3 +61,20 @@ target_link_libraries(map_loader ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 
 add_executable(ndt_localizer_node nodes/ndt.cpp)
 target_link_libraries(ndt_localizer_node ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+
+
+install(
+  DIRECTORY
+    launch
+    map
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+
+install(
+  TARGETS
+    map_loader
+    ndt_localizer_node
+    voxel_grid_filter
+  RUNTIME DESTINATION
+    ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
