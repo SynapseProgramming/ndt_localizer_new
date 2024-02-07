@@ -67,6 +67,7 @@ install(
   DIRECTORY
     launch
     map
+    cfgs
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
