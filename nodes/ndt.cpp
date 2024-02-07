@@ -18,7 +18,7 @@ NdtLocalizer::NdtLocalizer(ros::NodeHandle &nh, ros::NodeHandle &private_nh) : n
   // Subscribers
   initial_pose_sub_ = nh_.subscribe("initialpose", 100, &NdtLocalizer::callback_init_pose, this);
   map_points_sub_ = nh_.subscribe("points_map", 1, &NdtLocalizer::callback_pointsmap, this);
-  sensor_points_sub_ = nh_.subscribe("filtered_points", 1, &NdtLocalizer::callback_pointcloud, this);
+  sensor_points_sub_ = nh_.subscribe("rslidar_points", 1, &NdtLocalizer::callback_pointcloud, this);
   odom_sub_ = nh_.subscribe("odom", 10, &NdtLocalizer::callback_odom, this);
 
   diagnostic_thread_ = std::thread(&NdtLocalizer::timer_diagnostic, this);
@@ -197,7 +197,12 @@ void NdtLocalizer::callback_pointcloud(
   boost::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> sensor_points_sensorTF_ptr(
       new pcl::PointCloud<pcl::PointXYZ>);
 
+  boost::shared_ptr<pcl::PointCloud<pcl::PointXYZ>> filtered_sensor_points_sensorTF_ptr(
+      new pcl::PointCloud<pcl::PointXYZ>);
+
   pcl::fromROSMsg(*sensor_points_sensorTF_msg_ptr, *sensor_points_sensorTF_ptr);
+  pcl::Indices indices;
+  pcl::removeNaNFromPointCloud(*sensor_points_sensorTF_ptr, *filtered_sensor_points_sensorTF_ptr,indices);
 
   // get TF odom to base
   geometry_msgs::TransformStamped::Ptr TF_odom_to_base_ptr(new geometry_msgs::TransformStamped);
@@ -221,7 +226,7 @@ void NdtLocalizer::callback_pointcloud(
   }
 
   pcl::transformPointCloud(
-      *sensor_points_sensorTF_ptr, *sensor_points_baselinkTF_ptr, base_to_sensor_matrix_);
+      *filtered_sensor_points_sensorTF_ptr, *sensor_points_baselinkTF_ptr, base_to_sensor_matrix_);
 
   // set input point cloud
   ndt_->setInputSource(sensor_points_baselinkTF_ptr);

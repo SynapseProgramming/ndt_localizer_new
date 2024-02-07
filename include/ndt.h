@@ -24,6 +24,7 @@
 #include <tf2_ros/transform_listener.h>
 
 #include <pcl/point_types.h>
+#include <pcl/filters/filter.h>
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl/registration/ndt.h>
 #include <pcl_ros/point_cloud.h>
