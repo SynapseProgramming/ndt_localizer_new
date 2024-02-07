@@ -257,8 +257,8 @@ void NdtLocalizer::callback_pointcloud(
   {
     // use predicted pose as init guess
     // initial_pose_matrix = pre_trans * delta_trans;  // linear prediction mode
-    //initial_pose_matrix = map_to_odom_matrix * odom_trans;  // local odom mode
-    initial_pose_matrix = odom_trans; // global odom mode
+    initial_pose_matrix = map_to_odom_matrix * odom_trans;  // local odom mode
+    // initial_pose_matrix = odom_trans; // global odom mode
   }
  
 

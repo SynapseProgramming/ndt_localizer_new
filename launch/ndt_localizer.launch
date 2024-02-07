@@ -6,8 +6,8 @@
   <param name="/use_sim_time" value="true" />
 
   <arg name="input_sensor_points_topic" default="/rslidar_points" doc="Sensor points topic"/>
-  <arg name="input_odom_topic" default="/odometry/filtered/local" doc="filtered odometry topic"/>
-  <arg name="input_initial_pose_topic" default="/initialpose" doc="Initial position topic to align" />
+  <arg name="input_odom_topic" default="/odom_filtered" doc="filtered odometry topic"/>
+  <arg name="input_initial_pose_topic" default="/set_pose" doc="Initial position topic to align" />
   <arg name="input_map_points_topic" default="/points_map" doc="Map points topic" />
   <arg name="output_pose_topic" default="ndt_pose" doc="Estimated self position" />
   <arg name="output_pose_with_covariance_topic" default="ndt_pose_with_covariance" doc="Estimated self position with covariance" />
@@ -23,7 +23,7 @@
 
   <arg name="trans_epsilon" default="0.05" doc="The maximum difference between two consecutive transformations in order to consider convergence" />
   <arg name="step_size" default="0.1" doc="The newton line search maximum step length" />
-  <arg name="resolution" default="3.0" doc="The ND voxel grid resolution" />
+  <arg name="resolution" default="1.0" doc="The ND voxel grid resolution" />
   <arg name="max_iterations" default="50" doc="The number of iterations required to calculate alignment" />
   <arg name="converged_param_transform_probability" default="3.0" doc="" />
 
